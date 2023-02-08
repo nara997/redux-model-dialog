@@ -29,7 +29,7 @@ const ModelDialog = props => {
         <Dialog.Description className="DialogDescription">
             {body}
         </Dialog.Description>
-        <Dialog.Description>name :</Dialog.Description>
+       
          
         
         
