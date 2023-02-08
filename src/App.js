@@ -1,25 +1,42 @@
-import logo from './logo.svg';
-import './App.css';
+import { useQuery, gql } from '@apollo/client';
+import "./App.css"
+import ModelDialog from "./ModelDialog/index"
 
-function App() {
+const GET_SUBJECTS = gql`
+  query GetSubjects{
+    messages{
+          items{
+                 subject
+                 id
+                 body
+                }       
+              
+              }
+  }
+`
+;
+
+
+
+
+
+export default function App() {
+  const { loading, error, data } = useQuery(GET_SUBJECTS);
+
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>Error : {error.message}</p>;
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+    <div className="appContainer">
+      <h2 class="App-header"> => Dialog Box is used to display more Information about that particular subject</h2>
+        {data && data.messages.items.map(eachMessage  => {
+                      
 
-export default App;
+          return(
+
+            <ModelDialog eachMessage={eachMessage} key={eachMessage.id}/>
+          )
+         }) 
+        }
+    </div>
+  )
+}
